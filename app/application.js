@@ -7,7 +7,12 @@ function Application(){
     return (
         <div className="main">
             <Urlbar />
-            <Webview />
+            <div style={{display: 'flex', flex: 'auto', flexDirection: 'row'}}>
+                <Webview />
+                <div>
+                    <h1>Editor panel</h1>
+                </div>
+            </div>
             <DevTools position={{ top: 0, right: 100 }}/>
         </div>
     );
