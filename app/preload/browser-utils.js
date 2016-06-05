@@ -11,6 +11,23 @@ const listen = (eventType, scope, callback) => {
     });
 };
 
+const rebindConsole = () => {
+    const original = window.console;
+    const methods = ['log', 'warn', 'error'];
+
+    const replacement = {};
+
+    methods.forEach((method) => {
+        replacement[method] = (...args) => {
+            const serialized = JSON.stringify(args);
+            original[method](serialized);
+        };
+    });
+
+    window.console = replacement;
+};
+
 module.exports = {
-    listen
+    listen,
+    rebindConsole
 };

@@ -35,7 +35,7 @@ export function connect(WrappedComponent) {
     Connect.WrappedComponent = WrappedComponent;
     Connect.contextTypes = { store: PT.object.isRequired };
 
-    return Connect;
+    return observer(Connect);
 }
 
 export default StoreProvider;

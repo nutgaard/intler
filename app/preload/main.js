@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
-const { listen } = require('./browser-utils');
+const { listen, rebindConsole } = require('./browser-utils');
+rebindConsole();
 
 class Clientside {
     constructor() {
@@ -19,11 +20,16 @@ class Clientside {
                 return false;
             }
         });
+        listen('keydown', '*', (event) => {
+            console.log('keydown', event.target.nodeName);
+        });
 
         ipcRenderer.on('state', (event, message) => {
-            console.log('ClientIPC: ' + message);
             this.store = JSON.parse(message);
-            ipcRenderer.sendToHost('state', message.toUpperCase());
+            if (this.store.ipcdebug) {
+                console.log('ClientIPC: ', this.store);
+            }
+            ipcRenderer.sendToHost('state', this.store);
         });
     }
 }
