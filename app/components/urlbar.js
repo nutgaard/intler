@@ -1,12 +1,15 @@
-import React, { PropTypes as PT } from 'react';
-import { connect } from './../storeprovider';
+import React from 'react';
+import {connect} from './../storeprovider';
 
-function Urlbar({ store }){
+let value = null;
+function Urlbar({ store }) {
+    const onSubmit = (e) => { e.preventDefault(); store.setUrl(value); };
+    const onChange = (e) => { value = e.target.value; };
     return (
-        <div>
-            <input type="text" value={store.url} onChange={(e) => { store.url = e.target.value; }}/>
-            <p>{store.url}</p>
-        </div>
+        <form className="urlbar" onSubmit={onSubmit}>
+            <input type="text" defaultValue={store.url} onChange={onChange}/>
+            <button>GO</button>
+        </form>
     );
 }
 
