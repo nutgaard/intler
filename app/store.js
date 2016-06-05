@@ -1,6 +1,7 @@
-import { createStore, combineReducers } from 'redux';
-import dummy from './reducers/dummy-reducer';
+import { observable } from 'mobx';
 
-const reducers = { dummy };
+class WebviewStore {
+    @observable url = 'https://nav.no';
+}
 
-export default createStore(combineReducers(reducers));
+export default new WebviewStore();

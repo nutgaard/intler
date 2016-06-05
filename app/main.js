@@ -1,22 +1,16 @@
-import React, { PropTypes as PT } from 'react';
-import { Provider } from 'react-redux';
-import { render } from 'react-dom';
+import React from 'react';
+import {render} from 'react-dom';
 import store from './store';
-
+import StoreProvider from './storeprovider';
 import Application from './application';
 
-function Main(){
+function Main() {
     return (
-        <Provider store={store}>
-            <Application></Application>
-        </Provider>
+        <StoreProvider store={store}>
+            <Application />
+        </StoreProvider>
     );
 }
-
-const mapStateToProps = (state) => {
-    console.log('state',state);
-    return {};
-};
 
 render(<Main />, document.querySelector('.application'));
 

@@ -1,14 +1,15 @@
 import React, { PropTypes as PT } from 'react';
+import { connect } from './../storeprovider';
 
-function Urlbar(){
+function Urlbar({ store }){
     return (
         <div>
-            <h1>URL</h1>
+            <input type="text" value={store.url} onChange={(e) => { store.url = e.target.value; }}/>
+            <p>{store.url}</p>
         </div>
     );
 }
 
 Urlbar.propTypes = {};
 
-
-export default Urlbar;
+export default connect(Urlbar);
