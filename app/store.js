@@ -11,6 +11,10 @@ class WebviewStore {
         return !this.interactiveMode;
     }
 
+    @computed get editModeIcon() {
+        return this.interactiveMode ? 'I' : 'E';
+    }
+
     @action setUrl(url) {
         if (url != this.url) {
             this.url = url;
@@ -30,6 +34,10 @@ class WebviewStore {
 
     @action setInteractiveMode(isInteractive) {
         this.interactiveMode = isInteractive;
+    }
+
+    @action toggleInteractive() {
+        this.interactiveMode = !this.interactiveMode;
     }
 }
 

@@ -8,8 +8,6 @@ const logger = [console.log, console.warn, console.error].map((d) => d.bind(cons
 class Webview extends React.Component {
     constructor(props, context) {
         super(props, context);
-
-        this.captureStoreProps();
     }
 
     captureStoreProps() {
@@ -53,7 +51,12 @@ class Webview extends React.Component {
         });
     }
 
+    componentDidUpdate() {
+        this.refs.webview.send('state', JSON.stringify(this.context.store));
+    }
+
     render() {
+        this.captureStoreProps();
         return (
             <webview ref="webview" className="webview" src={this.context.store.url} preload="./app/preload/main.js"
                      nodeintegration/>
