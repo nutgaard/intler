@@ -19,7 +19,21 @@ const rebindConsole = () => {
 
     methods.forEach((method) => {
         replacement[method] = (...args) => {
-            const serialized = JSON.stringify(args);
+            const serialized = JSON.stringify(args.map((arg) => {
+                if (arg instanceof HTMLElement) {
+                    const nodename = arg.nodeName.toLocaleLowerCase();
+                    const id = arg.id;
+                    const classes = Array.from(arg.classList).map((cls) => `.${cls}`).join('');
+                    const components = [
+                        nodename,
+                        id && id.length > 0 ? `#${id}` : '',
+                        classes && classes.length > 0 ? `${classes}` : ''
+                    ];
+
+                    return components.join('');
+                }
+                return arg;
+            }));
             original[method](serialized);
         };
     });

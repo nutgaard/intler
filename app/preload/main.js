@@ -21,7 +21,7 @@ class Clientside {
             }
         });
         listen('keydown', '*', (event) => {
-            console.log('keydown', event.target.nodeName);
+            console.log('keydown', event.target);
         });
 
         ipcRenderer.on('state', (event, message) => {
