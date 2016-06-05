@@ -5,8 +5,8 @@ rebindConsole();
 class Clientside {
     constructor() {
         this.store = undefined;
-        document.addEventListener('DOMContentLoaded', this.setup);
-        window.onload = this.removeGoogleAnalytics;
+        document.addEventListener('DOMContentLoaded', this.setup.bind(this));
+        window.onload = this.removeGoogleAnalytics.bind(this);
     }
 
     removeGoogleAnalytics() {
@@ -16,6 +16,7 @@ class Clientside {
     setup() {
         listen('click', '*', (event) => {
             if (!this.store.interactiveMode) {
+                this.checkforIntlText(event.target);
                 event.preventDefault();
                 return false;
             }
@@ -31,6 +32,13 @@ class Clientside {
             }
             ipcRenderer.sendToHost('state', this.store);
         });
+    }
+
+    checkforIntlText(element) {
+        const dataset = element.dataset;
+        if (dataset.intlKey) {
+            ipcRenderer.sendToHost('intl', { value: element.innerHTML, key: dataset.intlKey});
+        }
     }
 }
 
