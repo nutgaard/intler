@@ -20,22 +20,12 @@ StoreProvider.propTypes = {
     store: PT.object.isRequired
 };
 
-function getDisplayName(WrappedComponent) {
-    return WrappedComponent.displayName || WrappedComponent.name || 'Component'
-}
-
 export function connect(WrappedComponent) {
-    class Connect extends Component {
-        render() {
-            return React.createElement(observer(WrappedComponent), { ...this.props, ...this.context });
-        }
-    }
+    const ctx = WrappedComponent.contextTypes || {};
+    ctx.store = PT.object.isRequired;
+    WrappedComponent.contextTypes = ctx;
 
-    Connect.displayName = `Connect(${getDisplayName(WrappedComponent)})`;
-    Connect.WrappedComponent = WrappedComponent;
-    Connect.contextTypes = { store: PT.object.isRequired };
-
-    return observer(Connect);
+    return observer(WrappedComponent);
 }
 
 export default StoreProvider;

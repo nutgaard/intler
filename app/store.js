@@ -4,7 +4,7 @@ useStrict(true);
 class WebviewStore {
     @observable ipcdebug = true;
     @observable url = 'https://nav.no';
-    rerenderWebview = false;
+    @observable urlbar = 'https://nav.no';
     @observable interactiveMode = true;
 
     @computed get editMode() {
@@ -12,13 +12,20 @@ class WebviewStore {
     }
 
     @action setUrl(url) {
-        this.url = url;
-        this.rerenderWebview = false;
+        if (url != this.url) {
+            this.url = url;
+        }
     }
 
-    @action updateUrl(url) {
+    @action setUrlbar(url) {
+        if (url != this.urlbar) {
+            this.urlbar = url;
+        }
+    }
+
+    @action gotoUrl(url) {
         this.url = url;
-        this.rerenderWebview = true;
+        this.urlbar = url;
     }
 
     @action setInteractiveMode(isInteractive) {

@@ -6,21 +6,23 @@ import WebViewIPC from './../utils/webview-ipc';
 const logger = [console.log, console.warn, console.error].map((d) => d.bind(console));
 
 class Webview extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { url: props.store.url };
+    constructor(props, context) {
+        super(props, context);
 
         this.captureStoreProps();
     }
 
     captureStoreProps() {
-        const url = this.props.store.url;
-        const ipcdebug = this.props.store.ipcdebug;
-        const interactiveMode = this.props.store.interactiveMode;
-        const rerenderWebview = this.props.store.rerenderWebview;
+        const { store } = this.context;
+        const url = store.url;
+        const urlbar = store.urlbar;
+        const ipcdebug = store.ipcdebug;
+        const interactiveMode = store.interactiveMode;
+        const rerenderWebview = store.rerenderWebview;
     }
 
     componentDidMount() {
+        const { store } = this.context;
         this.refs.webview.addEventListener('console-message', (e) => {
             try {
                 const content = JSON.parse(e.message);
@@ -32,36 +34,28 @@ class Webview extends React.Component {
 
         this.ipc = new WebViewIPC(this.refs.webview);
         this.ipc.on('state', (event, message) => {
-            if (this.props.store.ipcdebug) {
+            if (store.ipcdebug) {
                 console.log('ServerIPC: ', message);
             }
         });
 
 
         this.refs.webview.addEventListener('dom-ready', () => {
-            this.refs.webview.send('state', JSON.stringify(this.props.store));
+            this.refs.webview.send('state', JSON.stringify(store));
         });
         this.refs.webview.addEventListener('did-navigate', ({ url }) => {
-            this.props.store.setUrl(url);
+            console.log('did-navigate', url);
+            store.setUrlbar(url);
         });
         this.refs.webview.addEventListener('did-navigate-in-page', ({ url }) => {
-            this.props.store.setUrl(url);
+            console.log('did-navigate-in-page', url);
+            store.setUrlbar(url);
         });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.store.rerenderWebview) {
-            this.setState({
-                url: nextProps.store.url
-            });
-            nextProps.store.setUrl(nextProps.store.url);
-        }
     }
 
     render() {
-        console.log('this.props.store.rerenderWebview', this.props.store.rerenderWebview);
         return (
-            <webview ref="webview" className="webview" src={this.state.url} preload="./app/preload/main.js"
+            <webview ref="webview" className="webview" src={this.context.store.url} preload="./app/preload/main.js"
                      nodeintegration/>
         );
     }
