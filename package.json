@@ -1,0 +1,35 @@
+{
+  "name": "intler",
+  "version": "1.0.0",
+  "description": "Intl Editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:js": "watchify app/main.js -o bundle.js -t [ babelify ] -v",
+    "dev:style": "node-sass -w app/main.scss style.css",
+    "dev": "concurrently --kill-others \"npm run dev:js\" \"npm run dev:style\""
+  },
+  "author": "Nicklas Utgaard",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^0.4.1",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.1",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1",
+    "concurrently": "^2.1.0",
+    "node-sass": "^3.7.0",
+    "redux-devtools": "^3.3.1",
+    "watchify": "^3.7.0"
+  }
+}
