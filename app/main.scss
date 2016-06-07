@@ -26,6 +26,9 @@ body {
   flex: 0 2.5rem;
   display: flex;
   flex-direction: row;
+  border-bottom: 1px solid #999;
+  border-top: 1px solid #999;
+
 
   input {
     flex-grow: 1;
@@ -36,3 +39,5 @@ body {
 .webview {
   flex-grow: 1;
 }
+
+@import "components/react-split-panel/react-split-panel";

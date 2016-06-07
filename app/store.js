@@ -3,8 +3,8 @@ useStrict(true);
 
 class WebviewStore {
     @observable ipcdebug = true;
-    @observable url = 'https://nav.no';
-    @observable urlbar = 'https://nav.no';
+    @observable url = 'https://tjenester.nav.no/veiledearbeidssoker';
+    @observable urlbar = 'https://tjenester.nav.no/veiledearbeidssoker';
     @observable interactiveMode = true;
 
     @computed get editMode() {
