@@ -10,15 +10,6 @@ class Webview extends React.Component {
         super(props, context);
     }
 
-    captureStoreProps() {
-        const { store } = this.context;
-        const url = store.url;
-        const urlbar = store.urlbar;
-        const ipcdebug = store.ipcdebug;
-        const interactiveMode = store.interactiveMode;
-        const rerenderWebview = store.rerenderWebview;
-    }
-
     componentDidMount() {
         const { store } = this.context;
         this.refs.webview.addEventListener('console-message', (e) => {
@@ -56,7 +47,7 @@ class Webview extends React.Component {
     }
 
     render() {
-        this.captureStoreProps();
+        const state = this.context.store.completestate;
         return (
             <webview ref="webview" className="webview" src={this.context.store.url} preload="./app/preload/main.js"
                      nodeintegration/>

@@ -15,6 +15,10 @@ class WebviewStore {
         return this.interactiveMode ? 'I' : 'E';
     }
 
+    @computed get completestate() {
+        return { ipcdebug: this.ipcdebug, url: this.url, urlbar: this.urlbar, interactiveMode: this.interactiveMode };
+    }
+
     @action setUrl(url) {
         if (url != this.url) {
             this.url = url;
