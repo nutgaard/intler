@@ -32,6 +32,14 @@ class Clientside {
             }
             ipcRenderer.sendToHost('state', this.store);
         });
+        ipcRenderer.on('highlight', (event, message) => {
+            if (this.highlight) {
+                this.highlight.style.border = this.originalHighlight;
+            }
+            this.highlight = document.querySelector(`[data-intl-key="${message}"]`);
+            this.originalHighlight = this.highlight.style.border;
+            this.highlight.style.border = "2px solid #ff9100";
+        });
     }
 
     checkforIntlText(element) {

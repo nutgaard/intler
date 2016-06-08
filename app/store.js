@@ -1,11 +1,21 @@
 import {observable, computed, action, useStrict} from 'mobx';
 useStrict(true);
+const ipc = window.require('electron').ipcRenderer;
 
 class WebviewStore {
+    constructor() {
+        ipc.on('hotkey', (event, message) => {
+            const handler = eval(message);
+            handler(this);
+        })
+    }
+
     @observable ipcdebug = true;
-    @observable url = 'https://tjenester.nav.no/veiledearbeidssoker';
-    @observable urlbar = 'https://tjenester.nav.no/veiledearbeidssoker';
+    @observable url = 'https://tjenester.nav.no/veiledearbeidssoker/?sprak=nb&cmskeys';
+    @observable urlbar = 'https://tjenester.nav.no/veiledearbeidssoker/?sprak=nb&cmskeys';
     @observable interactiveMode = true;
+    @observable intlkey = null;
+    @observable intlvalue = null;
 
     @computed get editMode() {
         return !this.interactiveMode;
@@ -42,6 +52,11 @@ class WebviewStore {
 
     @action toggleInteractive() {
         this.interactiveMode = !this.interactiveMode;
+    }
+
+    @action intlselection(key, value) {
+        this.intlkey = key;
+        this.intlvalue = value;
     }
 }
 

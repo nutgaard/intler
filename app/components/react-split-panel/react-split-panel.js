@@ -27,7 +27,9 @@ class ReactSplitPanel extends Component {
     }
     
     onMouseDown(e) {
-        this.setState({ isDragging: true, secondaryWidthDragStart: this.state.secondaryWidth, dragStart: e.clientX });
+        if (e.target === this.refs.divider) {
+            this.setState({ isDragging: true, secondaryWidthDragStart: this.state.secondaryWidth, dragStart: e.clientX });
+        }
     }
     onMouseMove(e) {
         if (this.state.isDragging) {
@@ -53,7 +55,7 @@ class ReactSplitPanel extends Component {
         return (
             <div className="react-split-panel" ref="container" {...props}>
                 {first}
-                <div className="divider" />
+                <div className="divider" ref="divider" />
                 {secondClone}
             </div>
         );

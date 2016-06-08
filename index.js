@@ -1,8 +1,10 @@
 const electron = require('electron');
-const {app} = electron;
-const {BrowserWindow} = electron;
+const shortcuts = require('electron-localshortcut');
+const { app } = electron;
+const { BrowserWindow } = electron;
 
 let win;
+
 
 function createWindow() {
     win = new BrowserWindow({width: 800, height: 600});
@@ -12,6 +14,12 @@ function createWindow() {
 
     win.on('closed', () => {
         win = null;
+    });
+
+    const ipcSend = (handler) => win.webContents.send('hotkey', handler.toString());
+    shortcuts.register('Ctrl+E', () => {
+        console.log('CTRL+E');
+        ipcSend((store) => store.toggleInteractive());
     });
 }
 

@@ -27,10 +27,16 @@ class Webview extends React.Component {
                 console.log('ServerIPC: ', message);
             }
         });
+        
+        this.ipc.on('intl', (event, message) => {
+            store.intlselection(message.key, message.value);
+            this.ipc.send('highlight', message.key);
+        });
+        
 
 
         this.refs.webview.addEventListener('dom-ready', () => {
-            this.refs.webview.send('state', JSON.stringify(store));
+            this.ipc.send('state', JSON.stringify(store));
         });
         this.refs.webview.addEventListener('did-navigate', ({ url }) => {
             console.log('did-navigate', url);
@@ -43,7 +49,7 @@ class Webview extends React.Component {
     }
 
     componentDidUpdate() {
-        this.refs.webview.send('state', JSON.stringify(this.context.store));
+        this.ipc.send('state', JSON.stringify(this.context.store));
     }
 
     render() {
